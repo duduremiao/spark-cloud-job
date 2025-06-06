@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>spark-cloud-job</artifactId>
+    <artifactId>spark-job</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -48,9 +48,10 @@
     </dependencies>
 
     <build>
+        <finalName>spark-job</finalName>
         <plugins>
             <!-- Plugin para empacotar dependências -->
-            <plugin>
+                <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.5.0</version>
@@ -61,6 +62,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>com.example.SimpleSparkJob</mainClass>
@@ -70,7 +81,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- Compiler -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -23,13 +23,15 @@ public class SimpleSparkJob {
 
         // Total por categoria
         Dataset<Row> totalByCategory = df.groupBy("category")
-                                         .agg(functions.sum("value").alias("total_value"),
-                                              functions.avg("value").alias("avg_value"),
-                                              functions.count("value").alias("count"));
+                                         .agg(functions.sum("price").alias("total_value"),
+                                              functions.avg("price").alias("avg_value"),
+                                              functions.count("price").alias("count"));
 
         totalByCategory.show();
 
         totalByCategory.write().mode("overwrite").parquet("output/result");
+        System.out.println("Aguardando para permitir cópia dos arquivos...");
+        try { Thread.sleep(300000); } catch (InterruptedException e) {}
         spark.stop();
     }
 }

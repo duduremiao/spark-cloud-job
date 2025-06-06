@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-job
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-job
+  template:
+    metadata:
+      labels:
+        app: spark-job
+    spec:
+      containers:
+        - name: spark-job
+          image: eremiao/spark-job:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4040
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
